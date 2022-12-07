@@ -8,9 +8,10 @@ import (
 	"github.com/infamousjoeg/authn-jwt-gitlab/internal/conjurapi"
 )
 
-//ENV Vars for def in K8s:
-// CONJUR_PASS_OBJECT, CONJUR_USER_OBJECT, CONJUR_AUTHN_TOKEN_FILE, CONJUR_APPLIANCE_URL
-// CONJUR_VERSION, CONJUR_ACCOUNT
+// Environment variables to define:
+// CONJUR_APPLIANCE_URL, CONJUR_ACCOUNT, CONJUR_AUTHN_JWT_SERVICE_ID,
+// CONJUR_AUTHN_JWT_HOST_ID, CONJUR_AUTHN_JWT_TOKEN, CONJUR_USER_OBJECT,
+// CONJUR_PASS_OBJECT
 
 func main() {
 

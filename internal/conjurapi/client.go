@@ -113,7 +113,7 @@ func NewClientFromEnvironment(config Config) (*Client, error) {
 	if authnJwtServiceID != "" {
 		var jwtTokenString string
 		jwtToken := os.Getenv("CONJUR_AUTHN_JWT_TOKEN")
-		jwtTokenString := fmt.Sprintf("jwt=%s", jwtToken)
+		jwtTokenString = fmt.Sprintf("jwt=%s", jwtToken)
 		if jwtToken == "" {
 			jwtTokenPath := os.Getenv("JWT_TOKEN_PATH")
 			if jwtTokenPath == "" {
@@ -123,7 +123,7 @@ func NewClientFromEnvironment(config Config) (*Client, error) {
 			if err != nil {
 				return nil, err
 			}
-			jwtTokenString := fmt.Sprintf("jwt=%s", string(jwtToken))
+			jwtTokenString = fmt.Sprintf("jwt=%s", string(jwtToken))
 		}
 
 		var httpClient *http.Client

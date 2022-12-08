@@ -31,8 +31,4 @@ FROM gitlab/gitlab-runner:ubi-fips as ubi
 
 COPY --from=builder /go/bin/authn-jwt-gitlab /authn-jwt-gitlab
 
-RUN yum install -y ca-certificates && \
-    update-ca-certificates && \
-    yum clean all
-
 CMD ["/authn-jwt-gitlab"]

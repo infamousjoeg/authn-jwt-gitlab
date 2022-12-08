@@ -24,7 +24,6 @@ jobs:
           target: alpine
           tags: |
             nfmsjoeg/authn-jwt-gitlab:alpine
-            nfmsjoeg/authn-jwt-gitlab:latest
       - name: Build and push Ubuntu Docker image
         uses: docker/build-push-action@v3
         with:
@@ -32,4 +31,13 @@ jobs:
           push: true
           target: ubuntu
           tags: |
-            nfmsjoeg/authn-jwt-gitlab:ubuntu-jammy
+            nfmsjoeg/authn-jwt-gitlab:ubuntu
+            nfmsjoeg/authn-jwt-gitlab:latest
+      - name: Build and push UBI-FIPS Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          target: ubi
+          tags: |
+            nfmsjoeg/authn-jwt-gitlab:ubi-fips

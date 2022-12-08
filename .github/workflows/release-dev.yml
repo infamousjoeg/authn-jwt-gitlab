@@ -1,0 +1,58 @@
+name: release-dev
+
+on:
+  push:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - name: Lint All
+        uses: golangci/golangci-lint-action@v3
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - name: Test All
+        run: go test -v ./...
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Alpine Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          target: alpine
+          tags: |
+            nfmsjoeg/authn-jwt-gitlab:alpine-dev
+            nfmsjoeg/authn-jwt-gitlab:latest-dev
+      - name: Build and push Ubuntu Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          target: ubuntu
+          tags: |
+            nfmsjoeg/authn-jwt-gitlab:ubuntu-jammy-dev

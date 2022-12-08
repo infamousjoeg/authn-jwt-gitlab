@@ -10,4 +10,10 @@ FROM ubuntu:jammy
 
 COPY --from=builder /go/bin/authn-jwt-gitlab /authn-jwt-gitlab
 
+RUN apt-get update && \
+    apt-get install -y ca-certificates && \
+    update-ca-certificates
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 CMD ["/authn-jwt-gitlab"]

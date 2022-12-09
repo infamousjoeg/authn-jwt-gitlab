@@ -84,4 +84,4 @@ This is a community supported project.  For support, please file an issue in thi
 If you would like to contribute to this project, please review the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## License
-This project is licensed under MIT - see the [](LICENSE) file for details.
+This project is licensed under MIT - see the [LICENSE](LICENSE) file for details.

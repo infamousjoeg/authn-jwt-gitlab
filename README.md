@@ -43,7 +43,7 @@ ubuntu:
 
 ```yaml
 variables:
-  CONJUR_APPLIANCE_URL: "https://conjur.example.com"
+  CONJUR_APPLIANCE_URL: "https://conjur.joegarcia.dev"
   CONJUR_ACCOUNT: "cyberarkdemo"
   CONJUR_AUTHN_JWT_SERVICE_ID: "gitlab"
   CONJUR_AUTHN_JWT_TOKEN: "${CI_JOB_JWT}"
@@ -53,8 +53,8 @@ ubuntu:
     - docker
   image: nfmsjoeg/authn-jwt-gitlab:ubuntu-dev
   script:
-    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/username" /authn-jwt-gitlab)
-    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/password" /authn-jwt-gitlab)
+    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/DemoSafe-testuser4890/username" /authn-jwt-gitlab)
+    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/DemoSafe-testuser4890/password" /authn-jwt-gitlab)
     - env | grep TEST_
 
 alpine:
@@ -62,8 +62,8 @@ alpine:
     - docker
   image: nfmsjoeg/authn-jwt-gitlab:alpine-dev
   script:
-    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/username" /authn-jwt-gitlab)
-    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/password" /authn-jwt-gitlab)
+    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/DemoSafe-testuser4890/username" /authn-jwt-gitlab)
+    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/DemoSafe-testuser4890/password" /authn-jwt-gitlab)
     - env | grep TEST_
 
 ubi-fips:
@@ -72,8 +72,8 @@ ubi-fips:
     - docker
   image: nfmsjoeg/authn-jwt-gitlab:ubi-fips-dev
   script:
-    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/username" /authn-jwt-gitlab)
-    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/password" /authn-jwt-gitlab)
+    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/DemoSafe-testuser4890/username" /authn-jwt-gitlab)
+    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/DemoSafe-testuser4890/password" /authn-jwt-gitlab)
     - env | grep TEST_
 ```
 

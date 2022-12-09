@@ -39,6 +39,44 @@ ubuntu:
     * `CONJUR_SECRET_ID`
 5. To use the binary in a job executing on the GitLab Runner Docker container, review the [example GitLab CI Pipeline script](.gitlab-ci.yml) in this repository.
 
+### Example GitLab CI YAML File
+
+```yaml
+variables:
+  CONJUR_APPLIANCE_URL: "https://conjur.example.com"
+  CONJUR_ACCOUNT: "cyberarkdemo"
+  CONJUR_AUTHN_JWT_SERVICE_ID: "gitlab"
+  CONJUR_AUTHN_JWT_TOKEN: "${CI_JOB_JWT}"
+
+ubuntu:
+  tags:
+    - docker
+  image: nfmsjoeg/authn-jwt-gitlab:ubuntu-dev
+  script:
+    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/username" /authn-jwt-gitlab)
+    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/password" /authn-jwt-gitlab)
+    - env | grep TEST_
+
+alpine:
+  tags:
+    - docker
+  image: nfmsjoeg/authn-jwt-gitlab:alpine-dev
+  script:
+    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/username" /authn-jwt-gitlab)
+    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/password" /authn-jwt-gitlab)
+    - env | grep TEST_
+
+ubi-fips:
+  stage: test
+  tags:
+    - docker
+  image: nfmsjoeg/authn-jwt-gitlab:ubi-fips-dev
+  script:
+    - export TEST_USERNAME=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/username" /authn-jwt-gitlab)
+    - export TEST_PASSWORD=$(CONJUR_SECRET_ID="SyncVault/LOB_CI/DemoSafe/Operating System-WinServerLocal-dumb-dumb/password" /authn-jwt-gitlab)
+    - env | grep TEST_
+```
+
 ## Support
 This is a community supported project.  For support, please file an issue in this repository.
 

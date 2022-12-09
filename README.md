@@ -1,38 +1,49 @@
 # authn-jwt-gitlab
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+This project creates a Docker image that includes a Go binary that can be used to authenticate a JWT token against Conjur Secrets Manager and retrieve a secret value.  The Docker image is based on the GitLab Runner image. Ubuntu, Alpine, and UBI-FIPS versions are available.  The secret value is returned to STDOUT and can be used in a GitLab CI pipeline.
 
 ## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+[![](https://img.shields.io/docker/pulls/nfmsjoeg/authn-jwt-gitlab)](https://hub.docker.com/r/nfmsjoeg/authn-jwt-gitlab) [![](https://img.shields.io/discord/802650809246154792)](https://discord.gg/J2Tcdg9tmk) [![](https://img.shields.io/reddit/subreddit-subscribers/cyberark?style=social)](https://reddit.com/r/cyberark) ![](https://img.shields.io/github/license/infamousjoeg/authn-jwt-gitlab)
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## Requirements
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+* [Docker GitLab Runner](https://docs.gitlab.com/runner/install/docker.html)
+* [Conjur Secrets Manager](https://www.conjur.org)
+* Conjur Policies for authentication & authorization (authn & authz)
+  * [authn-jwt Conjur Policy with GitLab Service ID](https://github.com/infamousjoeg/conjur-policies/tree/master/authn/authn-jwt-gitlab.yml)
+  * [Conjur Policy to create identity for GitLab Repository](https://github.com/infamousjoeg/conjur-policies/blob/16f7375b604646a48b8b59ac9ddc011b6c8a08c6/ci/gitlab/root.yml#L45)
+  * [Conjur Policy to grant GitLab Repository identity to use synchronized secrets from CyberArk Vault](https://github.com/infamousjoeg/conjur-policies/blob/84b451b5025fd1bb5fc86c601d172cb27da81b00/grants/grants_ci.yml#L41)
+  * [Conjur Policy to grant GitLab Repository identity ability to authenticate using authn-jwt/gitlab web service](https://github.com/infamousjoeg/conjur-policies/blob/84b451b5025fd1bb5fc86c601d172cb27da81b00/grants/grants_authn.yml#L23)
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+
+1. Choose your GitLab Runner Docker container image based on your desired OS.  The following images are available:
+   * nfmsjoeg/authn-jwt-gitlab:ubuntu
+   * nfmsjoeg/authn-jwt-gitlab:alpine
+   * nfmsjoeg/authn-jwt-gitlab:ubi-fips
+2. Once a GitLab Runner Docker container is decided upon, include it in your GitLab CI Pipeline file.  The following example is for the nfmsjoeg/authn-jwt-gitlab:ubuntu image:
+```yaml
+ubuntu:
+    stage: test
+    tags:
+        - docker
+    image: nfmsjoeg/authn-jwt-gitlab:ubuntu
+```
+3. Be sure to properly tag the job in the GitLab CI Pipeline file with the proper tag to run the job on the GitLab Runner Docker container.  This is done in the above example using the `tags` key.
+4. Variables must be set in the GitLab CI Pipeline file for the GitLab Runner Docker container to consume.  Those environment variables are:
+    * `CONJUR_APPLIANCE_URL`
+    * `CONJUR_ACCOUNT`
+    * `CONJUR_AUTHN_JWT_SERVICE_ID`
+    * `CONJUR_AUTHN_JWT_TOKEN`
+    * `CONJUR_SECRET_ID`
+5. To use the binary in a job executing on the GitLab Runner Docker container, review the [example GitLab CI Pipeline script](.gitlab-ci.yml) in this repository.
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+This is a community supported project.  For support, please file an issue in this repository.
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+If you would like to contribute to this project, please review the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+This project is licensed under MIT - see the [](LICENSE) file for details.

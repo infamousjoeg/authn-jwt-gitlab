@@ -2,7 +2,7 @@ variables:
   CONJUR_APPLIANCE_URL: "https://conjur.joegarcia.dev"
   CONJUR_ACCOUNT: "cyberarkdemo"
   CONJUR_AUTHN_JWT_SERVICE_ID: "gitlab"
-  CONJUR_AUTHN_JWT_TOKEN: "${CI_JOB_JWT}"
+  CONJUR_AUTHN_JWT_TOKEN: "${CI_JOB_JWT_V2}"
 
 ubuntu:
   tags:

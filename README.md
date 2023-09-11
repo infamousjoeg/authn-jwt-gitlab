@@ -1,5 +1,8 @@
 # authn-jwt-gitlab
 
+# DEPRECATED
+[https://docs.cyberark.com/AAM-DAP/Latest/en/Content/Integrations/gitlab.htm](https://docs.cyberark.com/AAM-DAP/Latest/en/Content/Integrations/gitlab.htm)
+
 ## Description
 This project creates a Docker image that includes a Go binary that can be used to authenticate a JWT token against Conjur Secrets Manager and retrieve a secret value.  Ubuntu, Alpine, and UBI-FIPS versions are available.  The secret value is returned to STDOUT and can be used in a GitLab CI pipeline.
 
